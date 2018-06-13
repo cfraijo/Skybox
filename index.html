@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>BabylonJS Template</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
+        <style>
+            #renderCanvas {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <canvas id="renderCanvas"></canvas>
+        
+        <script>
+        // Get the canvas DOM element 
+        var canvas = document.getElementById('renderCanvas'); 
+        // Load the 3D engine 
+        var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); 
+        // CreateScene function that creates and return the scene 
+        var createScene = function () { 
+            // Create a basic BJS Scene object 
+            var scene = new BABYLON.Scene(engine); 
+            // Create a FreeCamera, and set its position to { x: 0, y: 5, z: -10 } 
+            var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene); 
+            // Target the camera to scene origin 
+            camera.setTarget(BABYLON.Vector3.Zero()); 
+            // Attach the camera to the canvas 
+            camera.attachControl(canvas, false); 
+            // Create a basic light, aiming 0, 1, 0 - meaning, to the sky 
+            var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene); 
+            // Create a built-in "sphere" shape; its constructor takes 6 params: name, segment, diameter, scene, updatable, sideOrientation 
+                var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 2, scene, false, BABYLON.Mesh.FRONTSIDE); 
+                // Move the sphere upward 1/2 of its height 
+                sphere.position.y = 1; 
+                // Create a built -in "ground" shape; its constructor takes 6 params: name, width, height, subdivision, scene, updatable 
+                var ground = BABYLON.Mesh.CreateGround('ground1', 6, 6, 2, scene, false); 
+                // Skybox - we create a skybox 
+                var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene); 
+                //skybox.infiniteDistance = true; // <-- with this you can make the skybox of infinite size 
+                // create material for the skybox 
+                var skyboxMaterial = new BABYLON.StandardMaterial( "skyBox", scene); 
+                skyboxMaterial.backFaceCulling = false;
+                skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture( "./images/fog_bg/thefog", scene); 
+                skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+                skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0); 
+                skyboxMaterial.specularColor= new BABYLON.Color3(0, 0, 0); 
+                skybox.material = skyboxMaterial; skybox.x = 1000;
+                //Return the created Scene
+                return scene; } 
+                // call the createScene function 
+                var scene = createScene(); 
+                // run the render loop 
+                engine.runRenderLoop(function(){ scene.render(); }); 
+                // the canvas/window resize event handler 
+                window.addEventListener('resize', function () { engine.resize(); });
+        </script>
+    </body>
+</html>
