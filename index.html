@@ -31,6 +31,8 @@
         var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); 
         // CreateScene function that creates and return the scene 
         var createScene = function () { 
+            //Enable VR experience
+            var VRHelper = scene.createDefaultVRExperience();
             // Create a basic BJS Scene object 
             var scene = new BABYLON.Scene(engine); 
             // Create a FreeCamera, and set its position to { x: 0, y: 5, z: -10 } 
