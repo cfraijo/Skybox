@@ -31,12 +31,12 @@
         var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); 
         // CreateScene function that creates and return the scene 
         var createScene = function () { 
-            //Enable VR experience
-            var VRHelper = scene.createDefaultVRExperience();
             // Create a basic BJS Scene object 
             var scene = new BABYLON.Scene(engine); 
             // Create a FreeCamera, and set its position to { x: 0, y: 5, z: -10 } 
-            var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene); 
+            var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene);
+            //Enable VR experience 
+            var VRHelper = scene.createDefaultVRExperience();
             // Target the camera to scene origin 
             camera.setTarget(BABYLON.Vector3.Zero()); 
             // Attach the camera to the canvas 
